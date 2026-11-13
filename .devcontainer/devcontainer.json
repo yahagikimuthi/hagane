@@ -1,0 +1,16 @@
+{
+    "name": "hgn container",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "runArgs": [
+        "-e",
+        "DISPLAY=${env:DISPLAY}",
+        "-v",
+        "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+        "--device=/dev/dri:/dev/dri"
+    ],
+    "containerEnv": {
+        "VK_ICD_FILENAMES": "/usr/share/vulkan/icd.d/intel_icd.json"
+    },
+    "remoteUser": "root"
+}

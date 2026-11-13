@@ -22,6 +22,9 @@ sudo apt-get update && sudo apt-get install -y \
     ninja-build \
     gdb \
     lldb \
+    libvulkan-dev \
+    vulkan-tools \
+    vulkan-validationlayers \
     pkg-config \
 
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-16 100 \

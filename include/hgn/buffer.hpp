@@ -16,7 +16,7 @@
 namespace hgn {
 class buffer final {
   public:
-    explicit buffer(
+    buffer(
         raw::buffer& raw, raw::allocator& allocator, raw::allocation& alloc, std::byte* data
     ) noexcept
         : raw_{std::move(raw), allocator, alloc}, data_{data} {}

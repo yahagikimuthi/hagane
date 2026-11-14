@@ -15,7 +15,7 @@ namespace hgn {
 class descriptor_set_layout_creator;
 class descriptor_set_layout_binding_pusher final {
   public:
-    explicit descriptor_set_layout_binding_pusher(
+    descriptor_set_layout_binding_pusher(
         descriptor_set_layout_creator& creator, std::vector<VkDescriptorSetLayoutBinding>& vec
     )
         : creator_{std::ref(creator)}, vec_{std::ref(vec)} {

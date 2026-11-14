@@ -15,7 +15,7 @@ namespace hgn {
 class graphics_pipeline_creator;
 class vertex_attribute_pusher final {
   public:
-    explicit vertex_attribute_pusher(
+    vertex_attribute_pusher(
         graphics_pipeline_creator& creator, std::vector<VkVertexInputAttributeDescription>& vec
     ) noexcept
         : creator_{std::ref(creator)}, vec_{std::ref(vec)} {

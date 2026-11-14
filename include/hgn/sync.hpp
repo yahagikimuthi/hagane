@@ -14,8 +14,7 @@
 namespace hgn {
 class semaphore final {
   public:
-    explicit semaphore(raw::semaphore& raw, raw::device& dev) noexcept
-        : raw_{std::move(raw), dev} {}
+    semaphore(raw::semaphore& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::semaphore& { return raw_; }
 
@@ -25,7 +24,7 @@ class semaphore final {
 
 class fence final {
   public:
-    explicit fence(raw::fence& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    fence(raw::fence& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
 
     [[nodiscard]] auto wait() noexcept -> std::expected<void, result> {
         auto* ptr = &get();

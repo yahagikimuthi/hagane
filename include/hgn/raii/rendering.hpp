@@ -11,7 +11,7 @@
 namespace hgn::raii {
 class pipeline_layout final {
   public:
-    [[nodiscard]] explicit pipeline_layout(
+    pipeline_layout(
         raw::pipeline_layout&& raw, raw::device& dev  // NOLINT
     ) noexcept
         : raw_{raw}, dev_{std::ref(dev)} {}
@@ -49,7 +49,7 @@ class pipeline_layout final {
 
 class pipeline final {
   public:
-    [[nodiscard]] explicit pipeline(raw::pipeline&& raw, raw::device& dev) noexcept  // NOLINT
+    pipeline(raw::pipeline&& raw, raw::device& dev) noexcept  // NOLINT
         : raw_{raw}, dev_{std::ref(dev)} {}
 
     pipeline(const pipeline&) noexcept                    = delete;
@@ -85,7 +85,7 @@ class pipeline final {
 
 class shader_module final {
   public:
-    [[nodiscard]] explicit shader_module(
+    shader_module(
         raw::shader_module&& native, raw::device& dev  // NOLINT
     ) noexcept
         : raw_{native}, dev_{std::ref(dev)} {}
@@ -123,7 +123,7 @@ class shader_module final {
 
 class descriptor_set_layout final {
   public:
-    explicit descriptor_set_layout(
+    descriptor_set_layout(
         raw::descriptor_set_layout&& raw, raw::device& dev  // NOLINT
     ) noexcept
         : raw_{raw}, dev_{std::ref(dev)} {}

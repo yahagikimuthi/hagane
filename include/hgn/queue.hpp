@@ -16,7 +16,7 @@
 namespace hgn {
 class queue_family final {
   public:
-    explicit queue_family(std::uint32_t index, raw::physical_device& physical) noexcept
+    queue_family(std::uint32_t index, raw::physical_device& physical) noexcept
         : raw_{index, physical} {}
 
     [[nodiscard]] auto index() const noexcept -> std::uint32_t { return raw_.index(); }

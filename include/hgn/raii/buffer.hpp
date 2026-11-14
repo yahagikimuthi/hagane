@@ -11,7 +11,7 @@
 namespace hgn::raii {
 class buffer final {
   public:
-    [[nodiscard]] explicit buffer(
+    buffer(
         raw::buffer&& native, raw::allocator& allocator, raw::allocation& alloc  // NOLINT
     ) noexcept
         : raw_{native}, allocator_{std::ref(allocator)}, alloc_{std::ref(alloc)} {}

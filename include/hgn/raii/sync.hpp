@@ -11,7 +11,7 @@
 namespace hgn::raii {
 class semaphore final {
   public:
-    [[nodiscard]] explicit semaphore(raw::semaphore&& raw, raw::device& dev) noexcept  // NOLINT
+    semaphore(raw::semaphore&& raw, raw::device& dev) noexcept  // NOLINT
         : raw_{raw}, dev_{std::ref(dev)} {}
 
     semaphore(const semaphore&)                             = delete;
@@ -47,7 +47,7 @@ class semaphore final {
 
 class fence final {
   public:
-    [[nodiscard]] explicit fence(raw::fence&& raw, raw::device& dev) noexcept  // NOLINT
+    fence(raw::fence&& raw, raw::device& dev) noexcept  // NOLINT
         : raw_{raw}, dev_{std::ref(dev)} {}
 
     fence(const fence&) noexcept                    = delete;

@@ -17,7 +17,7 @@
 namespace hgn {
 class instance_creator final {
   public:
-    explicit instance_creator() noexcept {
+    instance_creator() noexcept {
         app_.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         app_.apiVersion = VK_API_VERSION_1_3;
 

@@ -57,7 +57,7 @@ class allocation final {
 
 class command_pool final {
   public:
-    explicit command_pool(raw::command_pool&& raw, raw::device& dev) noexcept  // NOLINT
+    command_pool(raw::command_pool&& raw, raw::device& dev) noexcept  // NOLINT
         : raw_{raw}, dev_{std::ref(dev)} {}
 
     command_pool(const command_pool&) noexcept                    = delete;

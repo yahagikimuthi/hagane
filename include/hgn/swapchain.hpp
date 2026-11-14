@@ -19,7 +19,7 @@
 namespace hgn {
 class swapchain_khr final {
   public:
-    explicit swapchain_khr(VkSwapchainKHR_T& raw, raw::device& dev, const format fmt) noexcept
+    swapchain_khr(raw::swapchain_khr& raw, raw::device& dev, const format fmt) noexcept
         : raw_{std::move(raw), dev}, image_format_{fmt} {}
 
     [[nodiscard]] auto get_images() noexcept -> std::expected<std::vector<borrowed_image>, result> {

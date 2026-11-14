@@ -10,7 +10,7 @@
 namespace hgn {
 class surface_khr final {
   public:
-    explicit surface_khr(raw::surface_khr& raw, raw::instance& instance) noexcept
+    surface_khr(raw::surface_khr& raw, raw::instance& instance) noexcept
         : raw_{std::move(raw), instance} {}
 
     [[nodiscard]] auto get() noexcept -> raw::surface_khr& { return raw_; }

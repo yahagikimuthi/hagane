@@ -12,7 +12,7 @@
 namespace hgn::raii {
 class instance final {
   public:
-    [[nodiscard]] explicit instance(raw::instance&& raw) noexcept : raw_{raw} {}  // NOLINT
+    explicit instance(raw::instance&& raw) noexcept : raw_{raw} {}  // NOLINT
 
     instance(const instance& other) noexcept                    = delete;
     auto operator=(const instance& other) noexcept -> instance& = delete;
@@ -44,7 +44,7 @@ class instance final {
 
 class surface_khr final {
   public:
-    [[nodiscard]] explicit surface_khr(
+    surface_khr(
         raw::surface_khr&& raw, raw::instance& instance  // NOLINT
     ) noexcept
         : raw_{raw}, instance_{instance} {}
@@ -81,7 +81,7 @@ class surface_khr final {
 
 class device final {
   public:
-    [[nodiscard]] explicit device(raw::device&& raw) noexcept : raw_{raw} {}  // NOLINT
+    explicit device(raw::device&& raw) noexcept : raw_{raw} {}  // NOLINT
 
     device(const device&) noexcept                    = delete;
     auto operator=(const device&) noexcept -> device& = delete;
@@ -115,7 +115,7 @@ class device final {
 
 class physical_device final {
   public:
-    [[nodiscard]] explicit physical_device(raw::physical_device&& raw) noexcept  // NOLINT
+    explicit physical_device(raw::physical_device&& raw) noexcept  // NOLINT
         : raw_{raw} {}
 
     [[nodiscard]] auto get() noexcept -> raw::physical_device& { return raw_; }
@@ -130,7 +130,7 @@ class physical_device final {
 
 class queue_family final {
   public:
-    explicit queue_family(std::uint32_t index, raw::physical_device& physical) noexcept
+    queue_family(std::uint32_t index, raw::physical_device& physical) noexcept
         : index_{index}, physical_{std::ref(physical)} {}
 
     [[nodiscard]] auto index() const noexcept -> std::uint32_t { return index_; }
@@ -144,7 +144,7 @@ class queue_family final {
 
 class queue final {
   public:
-    [[nodiscard]] explicit queue(raw::queue&& raw) noexcept : raw_{raw} {}  // NOLINT
+    explicit queue(raw::queue&& raw) noexcept : raw_{raw} {}  // NOLINT
 
     [[nodiscard]] auto get() noexcept -> raw::queue& { return raw_; }
 

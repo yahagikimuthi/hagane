@@ -12,8 +12,8 @@
 namespace hgn::raii {
 class swapchain_khr final {
   public:
-    [[nodiscard]] explicit swapchain_khr(
-        VkSwapchainKHR_T&& raw, raw::device& dev  // NOLINT
+    swapchain_khr(
+        raw::swapchain_khr&& raw, raw::device& dev  // NOLINT
     ) noexcept
         : raw_{raw}, dev_{std::ref(dev)} {}
 
@@ -52,7 +52,7 @@ class swapchain_khr final {
 
 class image final {
   public:
-    explicit image(
+    image(
         raw::image&& raw, raw::allocator& allocator, raw::allocation& alloc  // NOLINT
     ) noexcept
         : raw_{raw}, allocator_{std::ref(allocator)}, alloc_{std::ref(alloc)} {}
@@ -94,7 +94,7 @@ class image final {
 
 class image_view final {
   public:
-    [[nodiscard]] explicit image_view(raw::image_view&& raw, raw::device& dev) noexcept  // NOLINT
+    image_view(raw::image_view&& raw, raw::device& dev) noexcept  // NOLINT
         : raw_{raw}, dev_{std::ref(dev)} {}
 
     image_view(const image_view&) noexcept                    = delete;
@@ -129,7 +129,7 @@ class image_view final {
 
 class sampler final {
   public:
-    explicit sampler(raw::sampler&& raw, raw::device& dev) noexcept  // NOLINT
+    sampler(raw::sampler&& raw, raw::device& dev) noexcept  // NOLINT
         : raw_{raw}, dev_{std::ref(dev)} {}
 
     sampler(const sampler&) noexcept                    = delete;

@@ -16,7 +16,7 @@ namespace hgn {
 class descriptor_set_writer;
 class descriptor_set_write_pusher final {
   public:
-    explicit descriptor_set_write_pusher(
+    descriptor_set_write_pusher(
         descriptor_set_writer&             writer,
         std::vector<VkWriteDescriptorSet>& vec,
         VkDescriptorBufferInfo&            buffer_info,
@@ -79,7 +79,7 @@ class descriptor_set_write_pusher final {
 
 class descriptor_set_writer final {
   public:
-    explicit descriptor_set_writer(raw::descriptor_set& set, raw::device& dev) noexcept
+    descriptor_set_writer(raw::descriptor_set& set, raw::device& dev) noexcept
         : set_{std::ref(set)}, dev_{std::ref(dev)} {}
 
     [[nodiscard]] auto get_pusher() noexcept -> descriptor_set_write_pusher {

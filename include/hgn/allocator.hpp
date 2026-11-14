@@ -6,7 +6,7 @@
 
 #include <vulkan/vulkan.h>
 
-#include "hgn/detail/allocator.hpp"
+#include "hgn/builder/allocator.hpp"
 #include "hgn/enums.hpp"
 #include "hgn/image.hpp"
 #include "hgn/raii/command.hpp"

@@ -10,13 +10,13 @@
 
 #include <vulkan/vulkan.h>
 
+#include "hgn/builder/device/descriptor.hpp"
+#include "hgn/builder/device/image_view.hpp"
+#include "hgn/builder/device/pipeline.hpp"
+#include "hgn/builder/device/swapchain.hpp"
 #include "hgn/command.hpp"
 #include "hgn/descriptor.hpp"
 #include "hgn/descriptor_pool.hpp"
-#include "hgn/detail/device/descriptor.hpp"
-#include "hgn/detail/device/image_view.hpp"
-#include "hgn/detail/device/pipeline.hpp"
-#include "hgn/detail/device/swapchain.hpp"
 #include "hgn/enums.hpp"
 #include "hgn/image.hpp"
 #include "hgn/queue.hpp"

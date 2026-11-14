@@ -7,7 +7,7 @@
 
 #include <vulkan/vulkan.h>
 
-#include "hgn/detail/queue.hpp"
+#include "hgn/builder/queue.hpp"
 #include "hgn/enums.hpp"
 #include "hgn/raii/hardware.hpp"
 #include "hgn/raw/raw.hpp"

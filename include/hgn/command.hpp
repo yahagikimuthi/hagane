@@ -7,9 +7,9 @@
 #include <vulkan/vulkan.h>
 
 #include "hgn/buffer.hpp"
+#include "hgn/builder/command/barrier.hpp"
+#include "hgn/builder/command/begin_render.hpp"
 #include "hgn/descriptor.hpp"
-#include "hgn/detail/command/barrier.hpp"
-#include "hgn/detail/command/begin_render.hpp"
 #include "hgn/enums.hpp"
 #include "hgn/raii/command.hpp"
 #include "hgn/raw/raw.hpp"

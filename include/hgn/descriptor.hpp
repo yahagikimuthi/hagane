@@ -3,7 +3,7 @@
 #include <functional>
 #include <utility>
 
-#include "hgn/detail/descriptor.hpp"
+#include "hgn/builder/descriptor.hpp"
 #include "hgn/raii/rendering.hpp"
 #include "hgn/raw/raw.hpp"
 

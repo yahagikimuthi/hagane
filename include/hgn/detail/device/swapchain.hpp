@@ -9,6 +9,8 @@
 #include <ranges>
 #include <vector>
 
+#include <vulkan/vulkan.h>
+
 #include "hgn/enums.hpp"
 #include "hgn/queue.hpp"
 #include "hgn/raw/raw.hpp"

@@ -23,6 +23,7 @@
 #include "hgn/raii/hardware.hpp"
 #include "hgn/raw/raw.hpp"
 #include "hgn/rendering.hpp"
+#include "hgn/surface.hpp"
 #include "hgn/sync.hpp"
 
 namespace hgn {
@@ -62,8 +63,9 @@ class device final {
             .transform([&]() noexcept -> fence { return fence{*raw, get()}; });
     }
 
-    [[nodiscard]] auto get_swapchain_creator() noexcept -> swapchain_khr_creator {
-        return swapchain_khr_creator{get()};
+    [[nodiscard]] auto get_swapchain_creator(surface_khr& surface
+    ) noexcept -> swapchain_khr_creator {
+        return {physical_, get(), surface.get()};
     }
 
     [[nodiscard]] auto create_command_pool(const queue_family& family

@@ -47,13 +47,7 @@ enum class color_space_khr : std::int32_t {  // NOLINT
 };
 
 enum class present_mode_khr : std::int32_t {  // NOLINT
-    fifo    = VK_PRESENT_MODE_FIFO_KHR,
     mailbox = VK_PRESENT_MODE_MAILBOX_KHR
-};
-
-enum class sharing_mode : std::int32_t {  // NOLINT
-    concurrent = VK_SHARING_MODE_CONCURRENT,
-    exclusive  = VK_SHARING_MODE_EXCLUSIVE
 };
 
 enum class image_layout : std::int32_t {

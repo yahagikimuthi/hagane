@@ -17,7 +17,7 @@ namespace hgn {
 
 class allocator_creator final {
   public:
-    explicit allocator_creator() noexcept { info_.vulkanApiVersion = VK_API_VERSION_1_3; }
+    allocator_creator() noexcept { info_.vulkanApiVersion = VK_API_VERSION_1_3; }
 
     [[nodiscard]] auto instance(instance& ref) noexcept -> allocator_creator& {
         info_.instance = &ref.get();

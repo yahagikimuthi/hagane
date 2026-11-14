@@ -11,7 +11,7 @@
 namespace hgn {
 class image final {
   public:
-    explicit image(raw::image& raw, raw::allocator& allocator, raw::allocation& alloc) noexcept
+    image(raw::image& raw, raw::allocator& allocator, raw::allocation& alloc) noexcept
         : raw_{std::move(raw), allocator, alloc} {}
 
     [[nodiscard]] auto get() noexcept -> raw::image& { return raw_; }
@@ -34,8 +34,7 @@ class borrowed_image final {
 
 class image_view final {
   public:
-    explicit image_view(raw::image_view& raw, raw::device& dev) noexcept
-        : raw_{std::move(raw), dev} {}
+    image_view(raw::image_view& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::image_view& { return raw_; }
 
@@ -45,7 +44,7 @@ class image_view final {
 
 class sampler final {
   public:
-    explicit sampler(raw::sampler& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    sampler(raw::sampler& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::sampler& { return raw_; }
 

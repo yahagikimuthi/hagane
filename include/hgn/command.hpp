@@ -119,8 +119,7 @@ class command_buffer final {
 
 class command_pool final {
   public:
-    explicit command_pool(raw::command_pool& raw, raw::device& dev) noexcept
-        : raw_{std::move(raw), dev} {}
+    command_pool(raw::command_pool& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
 
     [[nodiscard]] auto create_buffer() noexcept -> std::expected<command_buffer, result> {
         auto info  = VkCommandBufferAllocateInfo{};

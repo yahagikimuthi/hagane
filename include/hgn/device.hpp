@@ -28,7 +28,7 @@
 namespace hgn {
 class device final {
   public:
-    explicit device(raw::device& raw, raw::physical_device& physical) noexcept
+    device(raw::device& raw, raw::physical_device& physical) noexcept
         : raw_{std::move(raw)}, physical_{std::ref(physical)} {}
 
     [[nodiscard]] auto get_queue(const queue_family& family) noexcept -> queue {

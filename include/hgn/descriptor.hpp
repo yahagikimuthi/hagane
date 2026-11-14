@@ -10,7 +10,7 @@
 namespace hgn {
 class descriptor_set_layout final {
   public:
-    explicit descriptor_set_layout(raw::descriptor_set_layout& raw, raw::device& dev) noexcept
+    descriptor_set_layout(raw::descriptor_set_layout& raw, raw::device& dev) noexcept
         : raw_{std::move(raw), dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::descriptor_set_layout& { return raw_; }
@@ -21,7 +21,7 @@ class descriptor_set_layout final {
 
 class descriptor_set final {
   public:
-    explicit descriptor_set(raw::descriptor_set& raw, raw::device& dev) noexcept
+    descriptor_set(raw::descriptor_set& raw, raw::device& dev) noexcept
         : raw_{raw}, dev_{std::ref(dev)} {}
 
     [[nodiscard]] auto get_writer() noexcept -> descriptor_set_writer {

@@ -215,6 +215,8 @@ class device final {
 
     [[nodiscard]] auto get() noexcept -> raw::device& { return raw_; }
 
+    [[nodiscard]] auto init_physical() noexcept -> raw::physical_device& { return physical_; }
+
   private:
     [[nodiscard]] auto get_physical_property() noexcept -> VkPhysicalDeviceProperties {
         auto property = VkPhysicalDeviceProperties{};

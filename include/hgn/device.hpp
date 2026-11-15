@@ -138,26 +138,6 @@ class device final {
         return descriptor_set_layout_creator{get()};
     }
 
-    [[nodiscard]] auto create_descriptor_set_layout() noexcept
-        -> std::expected<descriptor_set_layout, result> {
-        auto binding            = VkDescriptorSetLayoutBinding{};
-        binding.binding         = 0;
-        binding.descriptorType  = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        binding.descriptorCount = 1;
-        binding.stageFlags      = VK_SHADER_STAGE_VERTEX_BIT;
-
-        auto info         = VkDescriptorSetLayoutCreateInfo{};
-        info.sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-        info.bindingCount = 1;
-        info.pBindings    = &binding;
-
-        auto* raw = static_cast<raw::descriptor_set_layout*>(nullptr);
-        return make_expected(vkCreateDescriptorSetLayout(&get(), &info, nullptr, &raw))
-            .transform([&]() noexcept -> descriptor_set_layout {
-                return descriptor_set_layout{*raw, get()};
-            });
-    }
-
     [[nodiscard]] auto create_descriptor_pool(const std::span<const descriptor_type> types
     ) noexcept -> std::expected<descriptor_pool, result> {
         auto sizes = std::vector<VkDescriptorPoolSize>(types.size());

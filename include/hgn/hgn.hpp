@@ -109,12 +109,8 @@ class allocator_creator final {
     }
 
     [[nodiscard]] auto device(device& dev) noexcept -> allocator_creator& {
-        info_.device = &dev.get();
-        return *this;
-    }
-
-    [[nodiscard]] auto physical(physical_device& physical) noexcept -> allocator_creator& {
-        info_.physicalDevice = &physical.get();
+        info_.device         = &dev.get();
+        info_.physicalDevice = &dev.init_physical();
         return *this;
     }
 

@@ -103,18 +103,6 @@ class device final {
             .transform([&]() noexcept -> shader_module { return shader_module{*raw, get()}; });
     }
 
-    [[nodiscard]] auto create_pipeline_layout() noexcept -> std::expected<pipeline_layout, result> {
-        // シェーダーのソースコード(layoutキーワード)の解釈を伝える
-        auto info                   = VkPipelineLayoutCreateInfo{};
-        info.sType                  = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        info.setLayoutCount         = 0;
-        info.pushConstantRangeCount = 0;
-
-        auto* raw = static_cast<raw::pipeline_layout*>(nullptr);
-        return make_expected(vkCreatePipelineLayout(&get(), &info, nullptr, &raw))
-            .transform([&]() noexcept -> pipeline_layout { return pipeline_layout{*raw, get()}; });
-    }
-
     [[nodiscard]] auto create_pipeline_layout(descriptor_set_layout& set
     ) noexcept -> std::expected<pipeline_layout, result> {
         auto* ptr                   = &set.get();

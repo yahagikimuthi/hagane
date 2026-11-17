@@ -6,7 +6,6 @@
 #include <functional>
 #include <ranges>
 #include <span>
-#include <utility>
 
 #include <vulkan/vulkan.h>
 
@@ -30,7 +29,7 @@ namespace hgn {
 class device final {
   public:
     device(raw::device& raw, raw::physical_device& physical) noexcept
-        : raw_{std::move(raw)}, physical_{std::ref(physical)} {}
+        : raw_{raw}, physical_{std::ref(physical)} {}
 
     [[nodiscard]] auto get_queue(const queue_family& family) noexcept -> queue {
         // 指定されたキューファミリーの0番キューを取得する

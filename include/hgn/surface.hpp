@@ -1,7 +1,5 @@
 #pragma once
 
-#include <utility>
-
 #include <vulkan/vulkan.h>
 
 #include "hgn/raii/hardware.hpp"
@@ -10,8 +8,7 @@
 namespace hgn {
 class surface_khr final {
   public:
-    surface_khr(raw::surface_khr& raw, raw::instance& instance) noexcept
-        : raw_{std::move(raw), instance} {}
+    surface_khr(raw::surface_khr& raw, raw::instance& instance) noexcept : raw_{raw, instance} {}
 
     [[nodiscard]] auto get() noexcept -> raw::surface_khr& { return raw_; }
 

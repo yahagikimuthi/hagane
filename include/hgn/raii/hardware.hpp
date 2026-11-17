@@ -2,8 +2,7 @@
 
 #include <cstdint>
 #include <functional>
-#include <optional>
-#include <utility>
+#include <memory>
 
 #include <vulkan/vulkan.h>
 
@@ -11,106 +10,62 @@
 
 namespace hgn::raii {
 class instance final {
+    class deleter final {
+      public:
+        void operator()(raw::instance* ptr) noexcept { vkDestroyInstance(ptr, nullptr); }
+    };
+
   public:
-    explicit instance(raw::instance&& raw) noexcept : raw_{raw} {}  // NOLINT
-
-    instance(const instance& other) noexcept                    = delete;
-    auto operator=(const instance& other) noexcept -> instance& = delete;
-
-    instance(instance&& other) noexcept : raw_{std::exchange(other.raw_, std::nullopt)} {}
-
-    auto operator=(instance&& other) noexcept -> instance& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_ = std::exchange(other.raw_, std::nullopt);
-        return *this;
-    }
-
-    ~instance() noexcept { destroy(); }
+    explicit instance(raw::instance& raw) noexcept : raw_{&raw} {}
 
     [[nodiscard]] auto get() noexcept -> raw::instance& { return *raw_; }
 
     [[nodiscard]] operator raw::instance&() noexcept { return get(); }
 
   private:
-    void destroy() noexcept {
-        if (raw_) vkDestroyInstance(&get(), nullptr);
-    }
-
-    std::optional<raw::instance&> raw_;
+    std::unique_ptr<raw::instance, deleter> raw_;
 };
 
 class surface_khr final {
+    class deleter final {
+      public:
+        explicit deleter(raw::instance& instance) noexcept : instance_{std::ref(instance)} {}
+
+        void operator()(raw::surface_khr* ptr) noexcept {
+            vkDestroySurfaceKHR(&instance_.get(), ptr, nullptr);
+        }
+
+      private:
+        std::reference_wrapper<raw::instance> instance_;
+    };
+
   public:
-    surface_khr(
-        raw::surface_khr&& raw, raw::instance& instance  // NOLINT
-    ) noexcept
-        : raw_{raw}, instance_{instance} {}
-
-    surface_khr(const surface_khr&) noexcept                    = delete;
-    auto operator=(const surface_khr&) noexcept -> surface_khr& = delete;
-
-    surface_khr(surface_khr&& other) noexcept
-        : raw_{std::exchange(other.raw_, std::nullopt)}, instance_{other.instance_} {}
-
-    auto operator=(surface_khr&& other) noexcept -> surface_khr& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_      = std::exchange(other.raw_, std::nullopt);
-        instance_ = other.instance_;
-        return *this;
-    }
-
-    ~surface_khr() noexcept { destroy(); }
+    surface_khr(raw::surface_khr& raw, raw::instance& instance) noexcept
+        : raw_{&raw, deleter{instance}} {}
 
     [[nodiscard]] auto get() noexcept -> raw::surface_khr& { return *raw_; }
 
     [[nodiscard]] operator raw::surface_khr&() noexcept { return get(); }
 
   private:
-    void destroy() noexcept {
-        if (raw_) vkDestroySurfaceKHR(&instance_.get(), &get(), nullptr);
-    }
-    std::optional<raw::surface_khr&>      raw_;
-    std::reference_wrapper<raw::instance> instance_;
+    std::unique_ptr<raw::surface_khr, deleter> raw_;
 };
 
 class device final {
+    class deleter final {
+      public:
+        void operator()(raw::device* ptr) noexcept { vkDestroyDevice(ptr, nullptr); }
+    };
+
   public:
-    explicit device(raw::device&& raw) noexcept : raw_{raw} {}  // NOLINT
-
-    device(const device&) noexcept                    = delete;
-    auto operator=(const device&) noexcept -> device& = delete;
-
-    device(device&& other) noexcept : raw_{std::exchange(other.raw_, std::nullopt)} {}
-
-    auto operator=(device&& other) noexcept -> device& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_ = std::exchange(other.raw_, std::nullopt);
-        return *this;
-    }
-
-    ~device() noexcept { destroy(); }
+    explicit device(raw::device& raw) noexcept : raw_{&raw} {}
 
     [[nodiscard]] auto get() noexcept -> raw::device& { return *raw_; }
 
     [[nodiscard]] operator raw::device&() noexcept { return get(); }
 
   private:
-    void destroy() noexcept {
-        if (raw_) {
-            vkDestroyDevice(&get(), nullptr);
-        }
-    }
-
-    std::optional<raw::device&> raw_;
+    std::unique_ptr<raw::device, deleter> raw_;
 };
 
 class physical_device final {

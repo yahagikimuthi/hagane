@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <expected>
 #include <ranges>
-#include <utility>
 #include <vector>
 
 #include <vulkan/vulkan.h>
@@ -17,7 +16,7 @@
 namespace hgn {
 class instance final {
   public:
-    explicit instance(raw::instance& raw) noexcept : raw_{std::move(raw)} {}
+    explicit instance(raw::instance& raw) noexcept : raw_{raw} {}
 
     // 物理デバイスの列挙
     [[nodiscard]] auto get_physicals() noexcept
@@ -39,7 +38,7 @@ class instance final {
                std::ranges::to<std::vector>();
     }
 
-    [[nodiscard]] auto get() noexcept -> raw::instance& { return raw_; }
+    [[nodiscard]] auto get() noexcept -> raw::instance& { return raw_.get(); }
 
   private:
     raii::instance raw_;

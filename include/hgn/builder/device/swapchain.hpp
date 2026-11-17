@@ -116,7 +116,8 @@ class swapchain_khr_creator final {
             res != VK_SUCCESS)
             return make_unexpected(res);
 
-        auto count = std::uint32_t{};
+        info_.preTransform = capabilities.currentTransform;
+        auto count         = std::uint32_t{};
         if (auto res = vkGetPhysicalDeviceSurfaceFormatsKHR(
                 &physical_.get(), info_.surface, &count, nullptr
             );

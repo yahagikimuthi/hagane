@@ -3,7 +3,6 @@
 #include <cstdint>
 #include <expected>
 #include <limits>
-#include <utility>
 
 #include <vulkan/vulkan.h>
 
@@ -14,7 +13,7 @@
 namespace hgn {
 class semaphore final {
   public:
-    semaphore(raw::semaphore& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    semaphore(raw::semaphore& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::semaphore& { return raw_; }
 
@@ -24,7 +23,7 @@ class semaphore final {
 
 class fence final {
   public:
-    fence(raw::fence& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    fence(raw::fence& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto wait() noexcept -> std::expected<void, result> {
         auto* ptr = &get();

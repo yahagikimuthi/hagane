@@ -131,10 +131,11 @@ class graphics_pipeline_creator final {
     }
 
     [[nodiscard]] auto create() noexcept -> std::expected<graphics_pipeline, result> {
-        vertex_state_.vertexBindingDescriptionCount   = 1;
-        vertex_state_.pVertexBindingDescriptions      = &vertex_binding_;
-        vertex_state_.vertexAttributeDescriptionCount = 2;
-        vertex_state_.pVertexAttributeDescriptions    = vertex_attributes_.data();
+        vertex_state_.vertexBindingDescriptionCount = 1;
+        vertex_state_.pVertexBindingDescriptions    = &vertex_binding_;
+        vertex_state_.vertexAttributeDescriptionCount =
+            static_cast<std::uint32_t>(vertex_attributes_.size());
+        vertex_state_.pVertexAttributeDescriptions = vertex_attributes_.data();
 
         dynamic_state_.dynamicStateCount = 2;
         dynamic_state_.pDynamicStates    = dynamic_states_.data();

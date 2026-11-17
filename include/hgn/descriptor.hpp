@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <utility>
 
 #include "hgn/builder/descriptor.hpp"
 #include "hgn/raii/rendering.hpp"
@@ -11,7 +10,7 @@ namespace hgn {
 class descriptor_set_layout final {
   public:
     descriptor_set_layout(raw::descriptor_set_layout& raw, raw::device& dev) noexcept
-        : raw_{std::move(raw), dev} {}
+        : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::descriptor_set_layout& { return raw_; }
 
@@ -22,7 +21,7 @@ class descriptor_set_layout final {
 class descriptor_set final {
   public:
     descriptor_set(raw::descriptor_set& raw, raw::device& dev) noexcept
-        : raw_{raw}, dev_{std::ref(dev)} {}
+        : raw_{std::ref(raw)}, dev_{std::ref(dev)} {}
 
     [[nodiscard]] auto get_writer() noexcept -> descriptor_set_writer {
         return descriptor_set_writer{get(), dev_.get()};
@@ -31,7 +30,7 @@ class descriptor_set final {
     [[nodiscard]] auto get() noexcept -> raw::descriptor_set& { return raw_; }
 
   private:
-    raii::descriptor_set                raw_;
-    std::reference_wrapper<raw::device> dev_;
+    std::reference_wrapper<raw::descriptor_set> raw_;
+    std::reference_wrapper<raw::device>         dev_;
 };
 }  // namespace hgn

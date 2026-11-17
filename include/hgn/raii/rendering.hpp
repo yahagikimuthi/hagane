@@ -1,8 +1,7 @@
 #pragma once
 
 #include <functional>
-#include <optional>
-#include <utility>
+#include <memory>
 
 #include <vulkan/vulkan.h>
 
@@ -10,202 +9,132 @@
 
 namespace hgn::raii {
 class pipeline_layout final {
+    class deleter final {
+      public:
+        explicit deleter(raw::device& dev) noexcept : dev_{std::ref(dev)} {}
+
+        void operator()(raw::pipeline_layout* ptr) noexcept {
+            vkDestroyPipelineLayout(&dev_.get(), ptr, nullptr);
+        }
+
+      private:
+        std::reference_wrapper<raw::device> dev_;
+    };
+
   public:
-    pipeline_layout(
-        raw::pipeline_layout&& raw, raw::device& dev  // NOLINT
-    ) noexcept
-        : raw_{raw}, dev_{std::ref(dev)} {}
-
-    pipeline_layout(const pipeline_layout&) noexcept                    = delete;
-    auto operator=(const pipeline_layout&) noexcept -> pipeline_layout& = delete;
-
-    pipeline_layout(pipeline_layout&& other) noexcept
-        : raw_{std::exchange(other.raw_, std::nullopt)}, dev_{other.dev_} {}
-
-    auto operator=(pipeline_layout&& other) noexcept -> pipeline_layout& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_ = std::exchange(other.raw_, std::nullopt);
-        dev_ = other.dev_;
-        return *this;
-    }
-
-    ~pipeline_layout() noexcept { destroy(); }
+    pipeline_layout(raw::pipeline_layout& raw, raw::device& dev) noexcept
+        : raw_{&raw, deleter{dev}} {}
 
     [[nodiscard]] auto get() noexcept -> raw::pipeline_layout& { return *raw_; }
 
     [[nodiscard]] operator raw::pipeline_layout&() noexcept { return get(); }
 
   private:
-    void destroy() noexcept {
-        if (raw_) vkDestroyPipelineLayout(&dev_.get(), &get(), nullptr);
-    }
-
-    std::optional<raw::pipeline_layout&> raw_;
-    std::reference_wrapper<raw::device>  dev_;
+    std::unique_ptr<raw::pipeline_layout, deleter> raw_;
 };
 
 class pipeline final {
+    class deleter final {
+      public:
+        explicit deleter(raw::device& dev) noexcept : dev_{std::ref(dev)} {}
+
+        void operator()(raw::pipeline* ptr) noexcept {
+            vkDestroyPipeline(&dev_.get(), ptr, nullptr);
+        }
+
+      private:
+        std::reference_wrapper<raw::device> dev_;
+    };
+
   public:
-    pipeline(raw::pipeline&& raw, raw::device& dev) noexcept  // NOLINT
-        : raw_{raw}, dev_{std::ref(dev)} {}
-
-    pipeline(const pipeline&) noexcept                    = delete;
-    auto operator=(const pipeline&) noexcept -> pipeline& = delete;
-
-    pipeline(pipeline&& other) noexcept
-        : raw_{std::exchange(other.raw_, std::nullopt)}, dev_{other.dev_} {}
-
-    auto operator=(pipeline&& other) noexcept -> pipeline& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_ = std::exchange(other.raw_, std::nullopt);
-        dev_ = other.dev_;
-        return *this;
-    }
-
-    ~pipeline() noexcept { destroy(); }
+    pipeline(raw::pipeline& raw, raw::device& dev) noexcept : raw_{&raw, deleter{dev}} {}
 
     [[nodiscard]] auto get() noexcept -> raw::pipeline& { return *raw_; }
 
     [[nodiscard]] operator raw::pipeline&() noexcept { return get(); }
 
   private:
-    void destroy() noexcept {
-        if (raw_) vkDestroyPipeline(&dev_.get(), &get(), nullptr);
-    }
-
-    std::optional<raw::pipeline&>       raw_;
-    std::reference_wrapper<raw::device> dev_;
+    std::unique_ptr<raw::pipeline, deleter> raw_;
 };
 
 class shader_module final {
+    class deleter final {
+      public:
+        explicit deleter(raw::device& dev) noexcept : dev_{std::ref(dev)} {}
+
+        void operator()(raw::shader_module* ptr) noexcept {
+            vkDestroyShaderModule(&dev_.get(), ptr, nullptr);
+        }
+
+      private:
+        std::reference_wrapper<raw::device> dev_;
+    };
+
   public:
-    shader_module(
-        raw::shader_module&& native, raw::device& dev  // NOLINT
-    ) noexcept
-        : raw_{native}, dev_{std::ref(dev)} {}
-
-    shader_module(const shader_module&) noexcept                    = delete;
-    auto operator=(const shader_module&) noexcept -> shader_module& = delete;
-
-    shader_module(shader_module&& other) noexcept
-        : raw_{std::exchange(other.raw_, std::nullopt)}, dev_{other.dev_} {}
-
-    auto operator=(shader_module&& other) noexcept -> shader_module& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_ = std::exchange(other.raw_, std::nullopt);
-        dev_ = other.dev_;
-        return *this;
-    }
-
-    ~shader_module() noexcept { destroy(); }
+    shader_module(raw::shader_module& native, raw::device& dev) noexcept
+        : raw_{&native, deleter{dev}} {}
 
     [[nodiscard]] auto get() noexcept -> raw::shader_module& { return *raw_; }
 
     [[nodiscard]] operator raw::shader_module&() noexcept { return get(); }
 
   private:
-    void destroy() noexcept {
-        if (raw_) vkDestroyShaderModule(&dev_.get(), &get(), nullptr);
-    }
-
-    std::optional<raw::shader_module&>  raw_;
-    std::reference_wrapper<raw::device> dev_;
+    std::unique_ptr<raw::shader_module, deleter> raw_;
 };
 
 class descriptor_set_layout final {
+    class deleter final {
+      public:
+        explicit deleter(raw::device& dev) noexcept : dev_{std::ref(dev)} {}
+
+        void operator()(raw::descriptor_set_layout* ptr) noexcept {
+            vkDestroyDescriptorSetLayout(&dev_.get(), ptr, nullptr);
+        }
+
+      private:
+        std::reference_wrapper<raw::device> dev_;
+    };
+
   public:
-    descriptor_set_layout(
-        raw::descriptor_set_layout&& raw, raw::device& dev  // NOLINT
-    ) noexcept
-        : raw_{raw}, dev_{std::ref(dev)} {}
-
-    descriptor_set_layout(const descriptor_set_layout&) noexcept                    = delete;
-    auto operator=(const descriptor_set_layout&) noexcept -> descriptor_set_layout& = delete;
-
-    descriptor_set_layout(descriptor_set_layout&& other) noexcept
-        : raw_{std::exchange(other.raw_, std::nullopt)}, dev_{other.dev_} {}
-
-    auto operator=(descriptor_set_layout&& other) noexcept -> descriptor_set_layout& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_ = std::exchange(other.raw_, std::nullopt);
-        dev_ = other.dev_;
-        return *this;
-    }
-
-    ~descriptor_set_layout() noexcept { destroy(); }
+    descriptor_set_layout(raw::descriptor_set_layout& raw, raw::device& dev) noexcept
+        : raw_{&raw, deleter{dev}} {}
 
     [[nodiscard]] auto get() noexcept -> raw::descriptor_set_layout& { return *raw_; }
 
     [[nodiscard]] operator raw::descriptor_set_layout&() noexcept { return get(); }
 
   private:
-    void destroy() noexcept {
-        if (raw_) vkDestroyDescriptorSetLayout(&dev_.get(), &get(), nullptr);
-    }
-
-    std::optional<raw::descriptor_set_layout&> raw_;
-    std::reference_wrapper<raw::device>        dev_;
+    std::unique_ptr<raw::descriptor_set_layout, deleter> raw_;
 };
 
 class descriptor_pool final {
+    class deleter final {
+      public:
+        explicit deleter(raw::device& dev) noexcept : dev_{std::ref(dev)} {}
+
+        void operator()(raw::descriptor_pool* ptr) noexcept {
+            vkDestroyDescriptorPool(&dev_.get(), ptr, nullptr);
+        }
+
+        [[nodiscard]] auto device() noexcept -> raw::device& { return dev_; }
+
+      private:
+        std::reference_wrapper<raw::device> dev_;
+    };
+
   public:
-    descriptor_pool(raw::descriptor_pool&& raw, raw::device& dev) noexcept  // NOLINT
-        : raw_{raw}, dev_{std::ref(dev)} {}
-
-    descriptor_pool(const descriptor_pool&) noexcept                    = delete;
-    auto operator=(const descriptor_pool&) noexcept -> descriptor_pool& = delete;
-
-    descriptor_pool(descriptor_pool&& other) noexcept
-        : raw_{std::exchange(other.raw_, std::nullopt)}, dev_{other.dev_} {}
-
-    auto operator=(descriptor_pool&& other) noexcept -> descriptor_pool& {
-        if (this == &other) return *this;
-
-        destroy();
-
-        raw_ = std::exchange(other.raw_, std::nullopt);
-        dev_ = other.dev_;
-        return *this;
-    }
-
-    ~descriptor_pool() noexcept { destroy(); }
+    descriptor_pool(raw::descriptor_pool& raw, raw::device& dev) noexcept
+        : raw_{&raw, deleter{dev}} {}
 
     [[nodiscard]] auto get() noexcept -> raw::descriptor_pool& { return *raw_; }
 
     [[nodiscard]] operator raw::descriptor_pool&() noexcept { return get(); }
 
-    [[nodiscard]] auto init_device() noexcept -> raw::device& { return dev_; }
-
-  private:
-    void destroy() noexcept {
-        if (raw_) vkDestroyDescriptorPool(&dev_.get(), &get(), nullptr);
+    [[nodiscard]] auto init_device() noexcept -> raw::device& {
+        return raw_.get_deleter().device();
     }
 
-    std::optional<raw::descriptor_pool&> raw_;
-    std::reference_wrapper<raw::device>  dev_;
-};
-
-class descriptor_set final {
-  public:
-    [[nodiscard]] descriptor_set(raw::descriptor_set& raw) noexcept : raw_{raw} {}
-
-    [[nodiscard]] auto get() noexcept -> raw::descriptor_set& { return raw_; }
-
-    [[nodiscard]] operator raw::descriptor_set&() noexcept { return get(); }
-
   private:
-    std::reference_wrapper<raw::descriptor_set> raw_;
+    std::unique_ptr<raw::descriptor_pool, deleter> raw_;
 };
 }  // namespace hgn::raii

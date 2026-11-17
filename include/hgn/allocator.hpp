@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <expected>
-#include <utility>
 
 #include <vulkan/vulkan.h>
 
@@ -15,7 +14,7 @@
 namespace hgn {
 class allocator final {
   public:
-    explicit allocator(raw::allocator& raw) noexcept : raw_{std::move(raw)} {}
+    explicit allocator(raw::allocator& raw) noexcept : raw_{raw} {}
 
     [[nodiscard]] auto get_buffer_creator() noexcept -> buffer_creator {
         return buffer_creator{get()};

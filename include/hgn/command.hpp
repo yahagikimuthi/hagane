@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <expected>
-#include <utility>
+#include <functional>
 
 #include <vulkan/vulkan.h>
 
@@ -18,7 +18,7 @@
 namespace hgn {
 class command_buffer final {
   public:
-    explicit command_buffer(raw::command_buffer& raw) noexcept : raw_{std::move(raw)} {}
+    explicit command_buffer(raw::command_buffer& raw) noexcept : raw_{std::ref(raw)} {}
 
     [[nodiscard]] auto begin() noexcept -> std::expected<void, result> {
         auto info  = VkCommandBufferBeginInfo{};
@@ -114,12 +114,12 @@ class command_buffer final {
     [[nodiscard]] auto get() noexcept -> raw::command_buffer& { return raw_; }
 
   private:
-    raii::command_buffer raw_;
+    std::reference_wrapper<raw::command_buffer> raw_;
 };
 
 class command_pool final {
   public:
-    command_pool(raw::command_pool& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    command_pool(raw::command_pool& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto create_buffer() noexcept -> std::expected<command_buffer, result> {
         auto info  = VkCommandBufferAllocateInfo{};

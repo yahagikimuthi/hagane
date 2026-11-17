@@ -37,8 +37,7 @@ class command_pool final {
     };
 
   public:
-    command_pool(raw::command_pool& raw, raw::device& dev) noexcept  // NOLINT
-        : raw_{&raw, deleter{dev}} {}
+    command_pool(raw::command_pool& raw, raw::device& dev) noexcept : raw_{&raw, deleter{dev}} {}
 
     [[nodiscard]] auto get() noexcept -> raw::command_pool& { return *raw_; }
 

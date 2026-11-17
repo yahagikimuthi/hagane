@@ -2,9 +2,9 @@
 
 #include <cstdint>
 #include <expected>
+#include <functional>
 #include <ranges>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include <vulkan/vulkan.h>
@@ -12,13 +12,12 @@
 #include "hgn/device.hpp"
 #include "hgn/enums.hpp"
 #include "hgn/queue.hpp"
-#include "hgn/raii/hardware.hpp"
 #include "hgn/raw/raw.hpp"
 
 namespace hgn {
 class physical_device final {
   public:
-    explicit physical_device(raw::physical_device& raw) noexcept : raw_{std::move(raw)} {}
+    explicit physical_device(raw::physical_device& raw) noexcept : raw_{std::ref(raw)} {}
 
     [[nodiscard]] auto name() const noexcept -> std::string {
         const auto property = get_property();
@@ -84,6 +83,6 @@ class physical_device final {
         return property;
     }
 
-    raii::physical_device raw_;
+    std::reference_wrapper<raw::physical_device> raw_;
 };
 }  // namespace hgn

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <functional>
 #include <memory>
 
@@ -66,46 +65,5 @@ class device final {
 
   private:
     std::unique_ptr<raw::device, deleter> raw_;
-};
-
-class physical_device final {
-  public:
-    explicit physical_device(raw::physical_device&& raw) noexcept  // NOLINT
-        : raw_{raw} {}
-
-    [[nodiscard]] auto get() noexcept -> raw::physical_device& { return raw_; }
-    [[nodiscard]] auto get() const noexcept -> raw::physical_device& { return raw_; }
-
-    [[nodiscard]] operator raw::physical_device&() noexcept { return get(); }
-    [[nodiscard]] operator raw::physical_device&() const noexcept { return get(); }
-
-  private:
-    std::reference_wrapper<raw::physical_device> raw_;
-};
-
-class queue_family final {
-  public:
-    queue_family(std::uint32_t index, raw::physical_device& physical) noexcept
-        : index_{index}, physical_{std::ref(physical)} {}
-
-    [[nodiscard]] auto index() const noexcept -> std::uint32_t { return index_; }
-
-    [[nodiscard]] auto init_physical() noexcept -> raw::physical_device& { return physical_; }
-
-  private:
-    std::uint32_t                                index_;
-    std::reference_wrapper<raw::physical_device> physical_;
-};
-
-class queue final {
-  public:
-    explicit queue(raw::queue&& raw) noexcept : raw_{raw} {}  // NOLINT
-
-    [[nodiscard]] auto get() noexcept -> raw::queue& { return raw_; }
-
-    [[nodiscard]] operator raw::queue&() noexcept { return get(); }
-
-  private:
-    std::reference_wrapper<raw::queue> raw_;
 };
 }  // namespace hgn::raii

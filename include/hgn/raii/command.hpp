@@ -24,7 +24,7 @@ class allocator final {
 class command_pool final {
     class deleter final {
       public:
-        explicit deleter(raw::device& dev) noexcept;
+        explicit deleter(raw::device& dev) noexcept : dev_{std::ref(dev)} {}
 
         void operator()(raw::command_pool* ptr) noexcept {
             vkDestroyCommandPool(&dev_.get(), ptr, nullptr);

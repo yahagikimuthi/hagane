@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <utility>
 
 #include <vulkan/vulkan.h>
 
@@ -12,7 +11,7 @@ namespace hgn {
 class image final {
   public:
     image(raw::image& raw, raw::allocator& allocator, raw::allocation& alloc) noexcept
-        : raw_{std::move(raw), allocator, alloc} {}
+        : raw_{raw, allocator, alloc} {}
 
     [[nodiscard]] auto get() noexcept -> raw::image& { return raw_; }
 
@@ -34,7 +33,7 @@ class borrowed_image final {
 
 class image_view final {
   public:
-    image_view(raw::image_view& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    image_view(raw::image_view& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::image_view& { return raw_; }
 
@@ -44,7 +43,7 @@ class image_view final {
 
 class sampler final {
   public:
-    sampler(raw::sampler& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    sampler(raw::sampler& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::sampler& { return raw_; }
 

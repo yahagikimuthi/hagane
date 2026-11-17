@@ -1,15 +1,12 @@
 #pragma once
 
-#include <utility>
-
 #include "hgn/raii/rendering.hpp"
 #include "hgn/raw/raw.hpp"
 
 namespace hgn {
 class pipeline_layout final {
   public:
-    pipeline_layout(raw::pipeline_layout& raw, raw::device& dev) noexcept
-        : raw_{std::move(raw), dev} {}
+    pipeline_layout(raw::pipeline_layout& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::pipeline_layout& { return raw_; }
 
@@ -19,7 +16,7 @@ class pipeline_layout final {
 
 class shader_module final {
   public:
-    shader_module(raw::shader_module& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    shader_module(raw::shader_module& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::shader_module& { return raw_; }
 
@@ -29,7 +26,7 @@ class shader_module final {
 
 class graphics_pipeline final {
   public:
-    graphics_pipeline(raw::pipeline& raw, raw::device& dev) noexcept : raw_{std::move(raw), dev} {}
+    graphics_pipeline(raw::pipeline& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::pipeline& { return raw_; }
 

@@ -5,7 +5,6 @@
 #include <expected>
 #include <limits>
 #include <ranges>
-#include <utility>
 #include <vector>
 
 #include <vulkan/vulkan.h>
@@ -20,7 +19,7 @@ namespace hgn {
 class swapchain_khr final {
   public:
     swapchain_khr(raw::swapchain_khr& raw, raw::device& dev, const format fmt) noexcept
-        : raw_{std::move(raw), dev}, image_format_{fmt} {}
+        : raw_{raw, dev}, image_format_{fmt} {}
 
     [[nodiscard]] auto get_images() noexcept -> std::expected<std::vector<borrowed_image>, result> {
         auto count = std::uint32_t{};

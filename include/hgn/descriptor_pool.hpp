@@ -9,8 +9,7 @@
 namespace hgn {
 class descriptor_pool final {
   public:
-    descriptor_pool(raw::descriptor_pool& raw, raw::device& dev) noexcept
-        : raw_{std::move(raw), dev} {}
+    descriptor_pool(raw::descriptor_pool& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
 
     [[nodiscard]] auto get() noexcept -> raw::descriptor_pool& { return raw_; }
 

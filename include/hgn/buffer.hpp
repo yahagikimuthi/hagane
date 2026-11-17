@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <cstring>
 #include <span>
-#include <utility>
 
 #include <hgn/third_parties/vk_mem_alloc.h>
 #include <vulkan/vulkan.h>
@@ -19,7 +18,7 @@ class buffer final {
     buffer(
         raw::buffer& raw, raw::allocator& allocator, raw::allocation& alloc, std::byte* data
     ) noexcept
-        : raw_{std::move(raw), allocator, alloc}, data_{data} {}
+        : raw_{raw, allocator, alloc}, data_{data} {}
 
     [[nodiscard]] auto size() noexcept -> std::uint64_t { return info().size; }
 

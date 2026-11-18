@@ -81,7 +81,7 @@ class image_memory_barrier_executor final {
             source              = VK_PIPELINE_STAGE_TRANSFER_BIT;
             destination         = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
         } else if (info_.oldLayout == VK_IMAGE_LAYOUT_UNDEFINED and
-                   info_.newLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) {
+                   info_.newLayout == VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL) {
             info_.srcAccessMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
             info_.dstAccessMask = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
             source              = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
@@ -89,13 +89,6 @@ class image_memory_barrier_executor final {
                 VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT |
                 VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT
             );
-        } else if (info_.oldLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL and
-                   info_.newLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) {
-            info_.srcAccessMask = 0;
-            info_.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT |
-                                  VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-            source      = VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
-            destination = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
         } else {
             assert(false and "unsupported layout transition.");
         }

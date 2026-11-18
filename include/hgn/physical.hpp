@@ -24,6 +24,13 @@ class physical_device final {
         return std::string{static_cast<const char*>(property.deviceName)};
     }
 
+    [[nodiscard]] auto is_supporting_depth_format(const format fmt) noexcept -> bool {
+        auto properties = VkFormatProperties{};
+        vkGetPhysicalDeviceFormatProperties(&get(), static_cast<VkFormat>(fmt), &properties);
+        constexpr auto features = VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT;
+        return (properties.optimalTilingFeatures & features) == features;
+    }
+
     [[nodiscard]] auto get_queue_families() noexcept -> std::vector<queue_family> {
         auto count = std::uint32_t{};
         vkGetPhysicalDeviceQueueFamilyProperties(&get(), &count, nullptr);

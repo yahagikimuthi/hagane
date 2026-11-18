@@ -76,6 +76,13 @@ enum class image_aspect_flag_bits : std::int32_t {  // NOLINT
     return static_cast<image_aspect_flag_bits>(raw_a | raw_b);
 }
 
+[[nodiscard]] constexpr auto operator|=(
+    image_aspect_flag_bits& a, const image_aspect_flag_bits b
+) noexcept -> image_aspect_flag_bits& {
+    auto tmp = a | b;
+    return a = tmp;
+}
+
 enum class image_usage_flag_bits : std::int32_t {  // NOLINT
     depth_stencil_attachment = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
     transfer_dst             = VK_IMAGE_USAGE_TRANSFER_DST_BIT,

@@ -75,6 +75,10 @@ class image_memory_barrier_executor final {
             raw_.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
             source             = VK_PIPELINE_STAGE_TRANSFER_BIT;
             destination        = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        } else if (raw_.oldLayout == VK_IMAGE_LAYOUT_UNDEFINED and
+                   raw_.newLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) {
+            raw_.srcAccessMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+            raw_.dstAccessMask = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
         } else {
             assert(false and "unsupported layout transition.");
         }

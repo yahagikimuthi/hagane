@@ -25,7 +25,6 @@ class image_view_creator final {
 
         // 以下は元画像のどの領域、どの層を対象とするか範囲指定する
         // どの種別にアクセスするか。カラーならこれ、深度の場合も設定値がある
-        info_.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
         info_.subresourceRange.baseMipLevel = 0;  // ミップマップレベル(0が最も解像度高)
         info_.subresourceRange.levelCount = 1;      // いくつのレベルを含めるか
         info_.subresourceRange.baseArrayLayer = 0;  // アクセスを開始する層番号(2Dなら0)
@@ -49,6 +48,12 @@ class image_view_creator final {
 
         info_.pNext = nullptr;  // 通常はnullptr
         info_.flags = 0;  // アトミック操作など特別な動作を有効にする場合は使用
+    }
+
+    [[nodiscard]] auto aspect_mask(const image_aspect_flag_bits aspect
+    ) noexcept -> image_view_creator& {
+        info_.subresourceRange.aspectMask = static_cast<VkImageAspectFlagBits>(aspect);
+        return *this;
     }
 
     // 元となる画像

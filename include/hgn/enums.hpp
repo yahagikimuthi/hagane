@@ -58,6 +58,20 @@ enum class image_layout : std::int32_t {
     undefined                = VK_IMAGE_LAYOUT_UNDEFINED,
 };
 
+enum class image_usage_flag_bits : std::uint32_t {  // NOLINT
+    depth_stencil_attachment = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+    transfer_dst             = VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+    sampled                  = VK_IMAGE_USAGE_SAMPLED_BIT
+};
+
+[[nodiscard]] constexpr auto operator|(
+    const image_usage_flag_bits a, const image_usage_flag_bits b
+) noexcept -> image_usage_flag_bits {
+    auto raw_a = std::to_underlying(a);
+    auto raw_b = std::to_underlying(b);
+    return static_cast<image_usage_flag_bits>(raw_a | raw_b);
+}
+
 enum class buffer_usage_flag_bits : std::int32_t {  // NOLINT
     vertex       = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
     index        = VK_BUFFER_USAGE_INDEX_BUFFER_BIT,

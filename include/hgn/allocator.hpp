@@ -6,6 +6,7 @@
 #include <vulkan/vulkan.h>
 
 #include "hgn/builder/allocator/buffer.hpp"
+#include "hgn/builder/allocator/image.hpp"
 #include "hgn/enums.hpp"
 #include "hgn/image.hpp"
 #include "hgn/raii/command.hpp"
@@ -20,13 +21,17 @@ class allocator final {
         return buffer_creator{get()};
     }
 
+    [[nodiscard]] auto get_image_creator() noexcept -> image_creator {
+        return image_creator{get()};
+    }
+
     [[nodiscard]] auto create_image(const std::uint32_t width, const std::uint32_t height) noexcept
         -> std::expected<image, result> {
         auto info          = VkImageCreateInfo{};  // NOLINT
         info.sType         = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
         info.imageType     = VK_IMAGE_TYPE_2D;
-        info.extent.width  = static_cast<uint32_t>(width);
-        info.extent.height = static_cast<uint32_t>(height);
+        info.extent.width  = width;
+        info.extent.height = height;
         info.extent.depth  = 1;
         info.mipLevels     = 1;
         info.arrayLayers   = 1;
@@ -37,14 +42,14 @@ class allocator final {
         info.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
         info.samples       = VK_SAMPLE_COUNT_1_BIT;
 
-        auto imageAllocInfo  = VmaAllocationCreateInfo{};
-        imageAllocInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
+        auto image_alloc_info  = VmaAllocationCreateInfo{};
+        image_alloc_info.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
 
         auto* allocation = static_cast<raw::allocation*>(nullptr);
         auto* raw        = static_cast<raw::image*>(nullptr);
 
         return make_expected(
-                   vmaCreateImage(&get(), &info, &imageAllocInfo, &raw, &allocation, nullptr)
+                   vmaCreateImage(&get(), &info, &image_alloc_info, &raw, &allocation, nullptr)
         )
             .transform([&]() noexcept -> image { return image{*raw, get(), *allocation}; });
     }

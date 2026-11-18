@@ -73,7 +73,7 @@ class physical_device final {
         info.ppEnabledExtensionNames = &extension;
 
         auto* raw = static_cast<raw::device*>(nullptr);
-        return make_expected(vkCreateDevice(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreateDevice(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> device { return device{*raw, get()}; });
     }
 

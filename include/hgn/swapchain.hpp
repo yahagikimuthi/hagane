@@ -25,13 +25,13 @@ class swapchain_khr final {
         auto count = std::uint32_t{};
         if (const auto res = vkGetSwapchainImagesKHR(&raw_.init_device(), &get(), &count, nullptr);
             res != VK_SUCCESS) {
-            return make_unexpected(res);
+            return to_unexpected(res);
         }
         auto raws = std::vector<raw::image*>(count);
         if (const auto res =
                 vkGetSwapchainImagesKHR(&raw_.init_device(), &get(), &count, raws.data());
             res != VK_SUCCESS) {
-            return make_unexpected(res);
+            return to_unexpected(res);
         }
 
         return raws | std::views::transform([](raw::image* raw) noexcept -> borrowed_image {
@@ -44,14 +44,14 @@ class swapchain_khr final {
     [[nodiscard]] auto acquire_next_image(semaphore& semapho
     ) noexcept -> std::expected<std::uint32_t, result> {
         auto index = std::uint32_t{};
-        return make_expected(vkAcquireNextImageKHR(
-                                 &raw_.init_device(),
-                                 &get(),
-                                 std::numeric_limits<std::uint32_t>::max(),
-                                 &semapho.get(),
-                                 nullptr,
-                                 &index
-                             ))
+        return to_expected(vkAcquireNextImageKHR(
+                               &raw_.init_device(),
+                               &get(),
+                               std::numeric_limits<std::uint32_t>::max(),
+                               &semapho.get(),
+                               nullptr,
+                               &index
+                           ))
             .transform([&]() noexcept -> std::uint32_t { return index; });
     }
 

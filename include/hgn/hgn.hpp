@@ -86,7 +86,7 @@ class instance_creator final {
         info_.ppEnabledExtensionNames = extensions_.data();
 
         auto* raw = static_cast<raw::instance*>(nullptr);
-        return make_expected(vkCreateInstance(&info_, nullptr, &raw))
+        return to_expected(vkCreateInstance(&info_, nullptr, &raw))
             .transform([&]() noexcept -> instance { return instance{*raw}; });
     }
 
@@ -116,8 +116,9 @@ class allocator_creator final {
 
     [[nodiscard]] auto create() noexcept -> std::expected<allocator, result> {
         auto* raw = static_cast<raw::allocator*>(nullptr);
-        return make_expected(vmaCreateAllocator(&info_, &raw))
-            .transform([&]() noexcept -> allocator { return allocator{*raw}; });
+        return to_expected(vmaCreateAllocator(&info_, &raw)).transform([&]() noexcept -> allocator {
+            return allocator{*raw};
+        });
     }
 
   private:

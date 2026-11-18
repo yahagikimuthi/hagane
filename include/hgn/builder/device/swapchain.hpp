@@ -114,7 +114,7 @@ class swapchain_khr_creator final {
                 &physical_.get(), info_.surface, &capabilities
             );
             res != VK_SUCCESS)
-            return make_unexpected(res);
+            return to_unexpected(res);
 
         info_.preTransform = capabilities.currentTransform;
         auto count         = std::uint32_t{};
@@ -122,14 +122,14 @@ class swapchain_khr_creator final {
                 &physical_.get(), info_.surface, &count, nullptr
             );
             res != VK_SUCCESS)
-            return make_unexpected(res);
+            return to_unexpected(res);
         count = 0;
 
         if (auto res = vkGetPhysicalDeviceSurfacePresentModesKHR(
                 &physical_.get(), info_.surface, &count, nullptr
             );
             res != VK_SUCCESS)
-            return make_unexpected(res);
+            return to_unexpected(res);
 
         if (info_.imageSharingMode == VK_SHARING_MODE_CONCURRENT) {
             info_.queueFamilyIndexCount = 2;
@@ -137,7 +137,7 @@ class swapchain_khr_creator final {
         }
 
         auto* raw = static_cast<raw::swapchain_khr*>(nullptr);
-        return make_expected(vkCreateSwapchainKHR(&dev_.get(), &info_, nullptr, &raw))
+        return to_expected(vkCreateSwapchainKHR(&dev_.get(), &info_, nullptr, &raw))
             .transform([&]() noexcept -> swapchain_khr {
                 return swapchain_khr{*raw, dev_.get(), static_cast<format>(info_.imageFormat)};
             });

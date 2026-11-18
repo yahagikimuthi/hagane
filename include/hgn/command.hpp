@@ -25,7 +25,7 @@ class command_buffer final {
         info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
         info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-        return make_expected(vkBeginCommandBuffer(&get(), &info));
+        return to_expected(vkBeginCommandBuffer(&get(), &info));
     }
 
     [[nodiscard]] auto get_image_memory_barrier_executor() noexcept
@@ -100,7 +100,7 @@ class command_buffer final {
     void end_rendering() noexcept { vkCmdEndRendering(&get()); }
 
     [[nodiscard]] auto end() noexcept -> std::expected<void, result> {
-        return make_expected(vkEndCommandBuffer(&get()));
+        return to_expected(vkEndCommandBuffer(&get()));
     }
 
     void set_scissor(const std::uint32_t width, const std::uint32_t height) noexcept {
@@ -137,7 +137,7 @@ class command_pool final {
         info.commandPool        = &get();
 
         auto* raw = static_cast<raw::command_buffer*>(nullptr);
-        return make_expected(vkAllocateCommandBuffers(&raw_.init_device(), &info, &raw))
+        return to_expected(vkAllocateCommandBuffers(&raw_.init_device(), &info, &raw))
             .transform([&]() noexcept -> command_buffer { return command_buffer{*raw}; });
     }
 

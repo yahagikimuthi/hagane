@@ -65,7 +65,7 @@ class descriptor_set_layout_creator final {
         info_.pBindings    = bindings_.data();
 
         auto* raw = static_cast<raw::descriptor_set_layout*>(nullptr);
-        return make_expected(vkCreateDescriptorSetLayout(&dev_.get(), &info_, nullptr, &raw))
+        return to_expected(vkCreateDescriptorSetLayout(&dev_.get(), &info_, nullptr, &raw))
             .transform([&]() noexcept -> descriptor_set_layout {
                 return descriptor_set_layout{*raw, dev_.get()};
             });

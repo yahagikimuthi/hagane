@@ -45,14 +45,14 @@ class buffer_creator final {
         auto* raw            = static_cast<raw::buffer*>(nullptr);
         auto* raw_allocation = static_cast<raw::allocation*>(nullptr);
         auto  alloc_info     = VmaAllocationInfo{};
-        return make_expected(vmaCreateBuffer(
-                                 &allocator_.get(),
-                                 &info_,
-                                 &alloc_create_info,
-                                 &raw,
-                                 &raw_allocation,
-                                 &alloc_info
-                             ))
+        return to_expected(vmaCreateBuffer(
+                               &allocator_.get(),
+                               &info_,
+                               &alloc_create_info,
+                               &raw,
+                               &raw_allocation,
+                               &alloc_info
+                           ))
             .transform([&]() noexcept -> buffer {
                 return buffer{
                     *raw,

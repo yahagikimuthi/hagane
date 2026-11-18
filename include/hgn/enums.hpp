@@ -12,12 +12,11 @@ enum class result : std::int32_t {
     suboptimal_khr        = VK_SUBOPTIMAL_KHR
 };
 
-[[nodiscard]] constexpr auto make_unexpected(const VkResult res
-) noexcept -> std::unexpected<result> {
+[[nodiscard]] constexpr auto to_unexpected(const VkResult res) noexcept -> std::unexpected<result> {
     return std::unexpected{static_cast<result>(res)};
 }
 
-[[nodiscard]] constexpr auto make_expected(const VkResult res
+[[nodiscard]] constexpr auto to_expected(const VkResult res
 ) noexcept -> std::expected<void, result> {
     return res == VK_SUCCESS ? std::expected<void, result>{}
                              : std::unexpected{static_cast<result>(res)};

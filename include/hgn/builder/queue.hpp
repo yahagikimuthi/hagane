@@ -52,7 +52,7 @@ class present_executor final {
 
         info_.pImageIndices = &image_index_;
 
-        return make_expected(vkQueuePresentKHR(&queue_.get(), &info_));
+        return to_expected(vkQueuePresentKHR(&queue_.get(), &info_));
     }
 
   private:
@@ -107,7 +107,7 @@ class submitter final {
             info_.pSignalSemaphores    = &p_signal_semaphore;
         }
 
-        return make_expected(vkQueueSubmit(&queue_.get(), 1, &info_, &fence.get()));
+        return to_expected(vkQueueSubmit(&queue_.get(), 1, &info_, &fence.get()));
     }
 
   private:

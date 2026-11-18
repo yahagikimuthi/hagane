@@ -172,8 +172,7 @@ class graphics_pipeline_creator final {
         info_.pDepthStencilState  = &depth_stencil;
 
         auto* raw = static_cast<raw::pipeline*>(nullptr);
-        return make_expected(
-                   vkCreateGraphicsPipelines(&dev_.get(), nullptr, 1, &info_, nullptr, &raw)
+        return to_expected(vkCreateGraphicsPipelines(&dev_.get(), nullptr, 1, &info_, nullptr, &raw)
         )
             .transform([&]() noexcept -> graphics_pipeline {
                 return graphics_pipeline{*raw, dev_.get()};

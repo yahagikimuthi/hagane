@@ -24,7 +24,7 @@ class descriptor_pool final {
         info.pSetLayouts        = &ptr;
 
         auto* raw = static_cast<raw::descriptor_set*>(nullptr);
-        return make_expected(vkAllocateDescriptorSets(&raw_.init_device(), &info, &raw))
+        return to_expected(vkAllocateDescriptorSets(&raw_.init_device(), &info, &raw))
             .transform([&]() noexcept -> descriptor_set {
                 return descriptor_set{*raw, raw_.init_device()};
             });

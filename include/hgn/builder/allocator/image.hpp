@@ -48,7 +48,7 @@ class image_creator final {
         auto* allocation = static_cast<raw::allocation*>(nullptr);
         auto* raw        = static_cast<raw::image*>(nullptr);
 
-        return make_expected(
+        return to_expected(
                    vmaCreateImage(
                        &allocator_.get(), &info_, &image_alloc_info, &raw, &allocation, nullptr
                    )

@@ -46,7 +46,7 @@ class device final {
         // 他の値であるpNextとflagsは基本的にnullptr, 0で十分
 
         auto* raw = static_cast<raw::semaphore*>(nullptr);
-        return make_expected(vkCreateSemaphore(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreateSemaphore(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> semaphore { return semaphore{*raw, get()}; });
     }
 
@@ -58,7 +58,7 @@ class device final {
         info.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
         auto* raw = static_cast<raw::fence*>(nullptr);
-        return make_expected(vkCreateFence(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreateFence(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> fence { return fence{*raw, get()}; });
     }
 
@@ -80,7 +80,7 @@ class device final {
         info.queueFamilyIndex = family.index();
 
         auto* raw = static_cast<raw::command_pool*>(nullptr);
-        return make_expected(vkCreateCommandPool(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreateCommandPool(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> command_pool { return command_pool{*raw, get()}; });
     }
 
@@ -98,7 +98,7 @@ class device final {
         info.pCode = reinterpret_cast<const std::uint32_t*>(codes.data());  // NOLINT
 
         auto* raw = static_cast<raw::shader_module*>(nullptr);
-        return make_expected(vkCreateShaderModule(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreateShaderModule(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> shader_module { return shader_module{*raw, get()}; });
     }
 
@@ -112,7 +112,7 @@ class device final {
         info.pushConstantRangeCount = 0;
 
         auto* raw = static_cast<raw::pipeline_layout*>(nullptr);
-        return make_expected(vkCreatePipelineLayout(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreatePipelineLayout(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> pipeline_layout { return pipeline_layout{*raw, get()}; });
     }
 
@@ -141,7 +141,7 @@ class device final {
         info.maxSets       = 1;
 
         auto* raw = static_cast<raw::descriptor_pool*>(nullptr);
-        return make_expected(vkCreateDescriptorPool(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreateDescriptorPool(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> descriptor_pool { return descriptor_pool{*raw, get()}; });
     }
 
@@ -172,12 +172,12 @@ class device final {
         info.maxLod     = 0.f;
 
         auto* raw = static_cast<raw::sampler*>(nullptr);
-        return make_expected(vkCreateSampler(&get(), &info, nullptr, &raw))
+        return to_expected(vkCreateSampler(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> sampler { return sampler{*raw, get()}; });
     }
 
     [[nodiscard]] auto wait_idle() noexcept -> std::expected<void, result> {
-        return make_expected(vkDeviceWaitIdle(&get()));
+        return to_expected(vkDeviceWaitIdle(&get()));
     }
 
     [[nodiscard]] auto get() noexcept -> raw::device& { return raw_; }

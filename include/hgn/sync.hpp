@@ -27,14 +27,14 @@ class fence final {
 
     [[nodiscard]] auto wait() noexcept -> std::expected<void, result> {
         auto* ptr = &get();
-        return make_expected(vkWaitForFences(
+        return to_expected(vkWaitForFences(
             &raw_.init_device(), 1, &ptr, VK_TRUE, std::numeric_limits<std::uint32_t>::max()
         ));
     }
 
     [[nodiscard]] auto reset() noexcept -> std::expected<void, result> {
         auto* ptr = &get();
-        return make_expected(vkResetFences(&raw_.init_device(), 1, &ptr));
+        return to_expected(vkResetFences(&raw_.init_device(), 1, &ptr));
     }
 
     [[nodiscard]] auto get() noexcept -> raw::fence& { return raw_; }

@@ -82,10 +82,11 @@ class image_memory_barrier_executor final {
             destination         = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
         } else if (info_.oldLayout == VK_IMAGE_LAYOUT_UNDEFINED and
                    info_.newLayout == VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL) {
-            info_.srcAccessMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-            info_.dstAccessMask = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
-            source              = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-            destination         = static_cast<VkPipelineStageFlagBits>(
+            info_.srcAccessMask = 0;
+            info_.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT |
+                                  VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+            source      = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+            destination = static_cast<VkPipelineStageFlagBits>(
                 VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT |
                 VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT
             );

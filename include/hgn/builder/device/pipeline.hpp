@@ -130,6 +130,11 @@ class graphics_pipeline_creator final {
         return *this;
     }
 
+    auto depth_attachment(const format fmt) noexcept -> graphics_pipeline_creator& {
+        rendering_.depthAttachmentFormat = static_cast<VkFormat>(fmt);
+        return *this;
+    }
+
     [[nodiscard]] auto create() noexcept -> std::expected<graphics_pipeline, result> {
         vertex_state_.vertexBindingDescriptionCount = 1;
         vertex_state_.pVertexBindingDescriptions    = &vertex_binding_;

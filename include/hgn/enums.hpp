@@ -54,11 +54,12 @@ enum class present_mode_khr : std::int32_t {  // NOLINT
 };
 
 enum class image_layout : std::int32_t {
-    color_attachment_optimal = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-    present_src_khr          = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
-    shader_read_only_optimal = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-    transfer_dst_optimal     = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-    undefined                = VK_IMAGE_LAYOUT_UNDEFINED,
+    color_attachment_optimal         = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+    depth_stencil_attachment_optimal = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+    present_src_khr                  = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+    shader_read_only_optimal         = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+    transfer_dst_optimal             = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+    undefined                        = VK_IMAGE_LAYOUT_UNDEFINED,
 };
 
 enum class image_aspect_flag_bits : std::int32_t {  // NOLINT

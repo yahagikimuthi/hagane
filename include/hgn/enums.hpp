@@ -61,7 +61,12 @@ enum class image_layout : std::int32_t {
     undefined                = VK_IMAGE_LAYOUT_UNDEFINED,
 };
 
-enum class image_usage_flag_bits : std::uint32_t {  // NOLINT
+enum class image_aspect_flag_bits : std::int32_t {  // NOLINT
+    color = VK_IMAGE_ASPECT_COLOR_BIT,
+    depth = VK_IMAGE_ASPECT_DEPTH_BIT
+};
+
+enum class image_usage_flag_bits : std::int32_t {  // NOLINT
     depth_stencil_attachment = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
     transfer_dst             = VK_IMAGE_USAGE_TRANSFER_DST_BIT,
     sampled                  = VK_IMAGE_USAGE_SAMPLED_BIT

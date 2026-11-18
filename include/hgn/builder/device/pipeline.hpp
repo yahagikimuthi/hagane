@@ -156,8 +156,8 @@ class graphics_pipeline_creator final {
         depth_stencil.depthTestEnable  = VK_TRUE;
         depth_stencil.depthWriteEnable = VK_TRUE;
         depth_stencil.depthCompareOp   = VK_COMPARE_OP_LESS;
-        depth_stencil.depthBoundsTestEnable = VK_TRUE;
-        depth_stencil.stencilTestEnable     = VK_TRUE;
+        depth_stencil.depthBoundsTestEnable = VK_FALSE;
+        depth_stencil.stencilTestEnable     = VK_FALSE;
 
         info_.pVertexInputState   = &vertex_state_;
         info_.pInputAssemblyState = &assembly_;

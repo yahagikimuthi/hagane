@@ -63,6 +63,10 @@ class queue final {
 
     [[nodiscard]] auto get_submitter() noexcept -> submitter { return submitter{get()}; }
 
+    [[nodiscard]] auto wait_idle() noexcept -> std::expected<void, result> {
+        return to_expected(vkQueueWaitIdle(&get()));
+    }
+
     [[nodiscard]] auto get() noexcept -> raw::queue& { return raw_; }
 
   private:

@@ -85,6 +85,13 @@ class submitter final {
     }
 
     [[nodiscard]] auto submit(fence& fence) noexcept -> std::expected<void, result> {
+        return submit(&fence.get());
+    }
+
+    [[nodiscard]] auto submit() noexcept -> std::expected<void, result> { return submit(nullptr); }
+
+  private:
+    [[nodiscard]] auto submit(raw::fence* fence) noexcept -> std::expected<void, result> {
         auto wait_stage = static_cast<std::uint32_t>(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
         info_.pWaitDstStageMask  = &wait_stage;
         auto* p_cmd_buffer       = static_cast<raw::command_buffer*>(nullptr);
@@ -107,10 +114,9 @@ class submitter final {
             info_.pSignalSemaphores    = &p_signal_semaphore;
         }
 
-        return to_expected(vkQueueSubmit(&queue_.get(), 1, &info_, &fence.get()));
+        return to_expected(vkQueueSubmit(&queue_.get(), 1, &info_, fence));
     }
 
-  private:
     VkSubmitInfo                        info_{};
     std::optional<raw::command_buffer&> cmd_buffer_;
     std::optional<raw::semaphore&>      wait_;

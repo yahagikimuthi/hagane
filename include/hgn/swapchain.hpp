@@ -18,8 +18,14 @@
 namespace hgn {
 class swapchain_khr final {
   public:
-    swapchain_khr(raw::swapchain_khr& raw, raw::device& dev, const format fmt) noexcept
-        : raw_{raw, dev}, image_format_{fmt} {}
+    swapchain_khr(
+        raw::swapchain_khr& raw,
+        raw::device&        dev,
+        const std::uint32_t width,
+        const std::uint32_t height,
+        const format        fmt
+    ) noexcept
+        : raw_{raw, dev}, width_{width}, height_{height}, image_format_{fmt} {}
 
     [[nodiscard]] auto get_images() noexcept -> std::expected<std::vector<borrowed_image>, result> {
         auto count = std::uint32_t{};
@@ -57,10 +63,16 @@ class swapchain_khr final {
 
     [[nodiscard]] auto image_format() const noexcept -> format { return image_format_; }
 
+    [[nodiscard]] auto width() const noexcept -> std::uint32_t { return width_; }
+
+    [[nodiscard]] auto height() const noexcept -> std::uint32_t { return height_; }
+
     [[nodiscard]] auto get() noexcept -> VkSwapchainKHR_T& { return raw_; }
 
   private:
     raii::swapchain_khr raw_;
+    std::uint32_t       width_;
+    std::uint32_t       height_;
     format              image_format_;
 };
 }  // namespace hgn

@@ -144,7 +144,13 @@ class swapchain_khr_creator final {
         auto* raw = static_cast<raw::swapchain_khr*>(nullptr);
         return to_expected(vkCreateSwapchainKHR(&dev_.get(), &info_, nullptr, &raw))
             .transform([&]() noexcept -> swapchain_khr {
-                return swapchain_khr{*raw, dev_.get(), static_cast<format>(info_.imageFormat)};
+                return swapchain_khr{
+                    *raw,
+                    dev_.get(),
+                    info_.imageExtent.width,
+                    info_.imageExtent.height,
+                    static_cast<format>(info_.imageFormat)
+                };
             });
     }
 

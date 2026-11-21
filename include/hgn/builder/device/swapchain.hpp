@@ -47,6 +47,11 @@ class swapchain_khr_creator final {
         info_.minImageCount = image_count;
     }
 
+    auto old_swapchain(swapchain_khr& swapchain) noexcept -> swapchain_khr_creator& {
+        info_.oldSwapchain = &swapchain.get();
+        return *this;
+    }
+
     auto extent(const std::uint32_t width, const std::uint32_t height) noexcept
         -> swapchain_khr_creator& {
         auto capabilities = get_capabilities();

@@ -84,11 +84,12 @@ class command_buffer final {
         pipeline_layout&             layout,
         const shader_stage_flag_bits flag,
         const std::uint32_t          offset,
+        const std::uint32_t          size,
         const T&                     constant
     ) noexcept {
         assert(offset % 4 == 0);
         vkCmdPushConstants(
-            &get(), &layout.get(), static_cast<VkShaderStageFlagBits>(flag), offset, &constant
+            &get(), &layout.get(), static_cast<VkShaderStageFlagBits>(flag), offset, size, &constant
         );
     }
 

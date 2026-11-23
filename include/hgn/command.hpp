@@ -1,8 +1,10 @@
 #pragma once
 
+#include <cassert>
 #include <cstdint>
 #include <expected>
 #include <functional>
+#include <type_traits>
 
 #include <vulkan/vulkan.h>
 
@@ -73,6 +75,20 @@ class command_buffer final {
 
         vkCmdCopyBufferToImage(
             &get(), &buffer.get(), &image.get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region
+        );
+    }
+
+    template <typename T>
+        requires std::is_class_v<T>
+    void push_constants(
+        pipeline_layout&             layout,
+        const shader_stage_flag_bits flag,
+        const std::uint32_t          offset,
+        const T&                     constant
+    ) noexcept {
+        assert(offset % 4 == 0);
+        vkCmdPushConstants(
+            &get(), &layout.get(), static_cast<VkShaderStageFlagBits>(flag), offset, &constant
         );
     }
 

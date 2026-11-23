@@ -12,6 +12,7 @@
 #include "hgn/builder/device/descriptor.hpp"
 #include "hgn/builder/device/image_view.hpp"
 #include "hgn/builder/device/pipeline.hpp"
+#include "hgn/builder/device/pipeline_layout.hpp"
 #include "hgn/builder/device/swapchain.hpp"
 #include "hgn/command.hpp"
 #include "hgn/descriptor.hpp"
@@ -100,6 +101,10 @@ class device final {
         auto* raw = static_cast<raw::shader_module*>(nullptr);
         return to_expected(vkCreateShaderModule(&get(), &info, nullptr, &raw))
             .transform([&]() noexcept -> shader_module { return shader_module{*raw, get()}; });
+    }
+
+    [[nodiscard]] auto get_pipeline_layout_creator() noexcept -> pipeline_layout_creator {
+        return pipeline_layout_creator{get()};
     }
 
     [[nodiscard]] auto create_pipeline_layout(descriptor_set_layout& set

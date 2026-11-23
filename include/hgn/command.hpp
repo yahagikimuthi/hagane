@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <expected>
 #include <functional>
-#include <type_traits>
 
 #include <vulkan/vulkan.h>
 
@@ -79,7 +78,6 @@ class command_buffer final {
     }
 
     template <typename T>
-        requires std::is_class_v<T>
     void push_constants(
         pipeline_layout&             layout,
         const shader_stage_flag_bits flag,

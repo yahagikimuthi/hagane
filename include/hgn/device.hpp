@@ -15,7 +15,6 @@
 #include "hgn/builder/device/pipeline_layout.hpp"
 #include "hgn/builder/device/swapchain.hpp"
 #include "hgn/command.hpp"
-#include "hgn/descriptor.hpp"
 #include "hgn/descriptor_pool.hpp"
 #include "hgn/enums.hpp"
 #include "hgn/image.hpp"
@@ -105,20 +104,6 @@ class device final {
 
     [[nodiscard]] auto get_pipeline_layout_creator() noexcept -> pipeline_layout_creator {
         return pipeline_layout_creator{get()};
-    }
-
-    [[nodiscard]] auto create_pipeline_layout(descriptor_set_layout& set
-    ) noexcept -> std::expected<pipeline_layout, result> {
-        auto* ptr                   = &set.get();
-        auto  info                  = VkPipelineLayoutCreateInfo{};
-        info.sType                  = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        info.setLayoutCount         = 1;
-        info.pSetLayouts            = &ptr;
-        info.pushConstantRangeCount = 0;
-
-        auto* raw = static_cast<raw::pipeline_layout*>(nullptr);
-        return to_expected(vkCreatePipelineLayout(&get(), &info, nullptr, &raw))
-            .transform([&]() noexcept -> pipeline_layout { return pipeline_layout{*raw, get()}; });
     }
 
     [[nodiscard]] auto get_graphics_pipeline_creator() noexcept -> graphics_pipeline_creator {

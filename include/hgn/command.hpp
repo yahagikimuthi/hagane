@@ -77,6 +77,8 @@ class command_buffer final {
         );
     }
 
+    // TODO コンセプトを考える
+    //  クラスか算術型であることが望ましい
     template <typename T>
     void push_constants(
         pipeline_layout&             layout,

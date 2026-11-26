@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
-#include <span>
+#include <ranges>
 
 #include <hgn/third_parties/vk_mem_alloc.h>
 #include <vulkan/vulkan.h>
@@ -22,10 +22,14 @@ class buffer final {
 
     [[nodiscard]] auto size() noexcept -> std::uint64_t { return info().size; }
 
-    template <typename T>
-    void cpy(const std::span<T> data) noexcept {
+    template <std::ranges::contiguous_range R>
+    void cpy(const R& range) noexcept {
         assert(data_ != nullptr);
-        std::memcpy(data_, data.data(), sizeof(T) * data.size());
+        std::memcpy(
+            data_,
+            std::ranges::data(range),
+            sizeof(std::ranges::range_value_t<R>) * std::ranges::size(range)
+        );
     }
 
     template <typename T>

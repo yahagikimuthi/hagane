@@ -100,7 +100,23 @@ class command_buffer final {
     void draw_indexed(
         const std::uint32_t index_count, const std::uint32_t instance_count
     ) noexcept {
-        vkCmdDrawIndexed(&get(), index_count, instance_count, 0, 0, 0);
+        draw_indexed(index_count, instance_count, 0, 0);
+    }
+
+    void draw_indexed(
+        const std::uint32_t index_count,
+        const std::uint32_t instance_count,
+        const std::uint32_t first_index,
+        const std::uint32_t vertex_offset
+    ) noexcept {
+        vkCmdDrawIndexed(
+            &get(),
+            index_count,
+            instance_count,
+            first_index,
+            static_cast<std::int32_t>(vertex_offset),
+            0
+        );
     }
 
     void set_viewport(const float width, const float height) noexcept {

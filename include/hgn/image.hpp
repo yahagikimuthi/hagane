@@ -4,19 +4,25 @@
 
 #include <vulkan/vulkan.h>
 
+#include "hgn/enums.hpp"
 #include "hgn/raii/image.hpp"
 #include "hgn/raw/raw.hpp"
 
 namespace hgn {
 class image final {
   public:
-    image(raw::image& raw, raw::allocator& allocator, raw::allocation& alloc) noexcept
-        : raw_{raw, allocator, alloc} {}
+    image(
+        raw::image& raw, raw::allocator& allocator, raw::allocation& alloc, const format fmt
+    ) noexcept
+        : raw_{raw, allocator, alloc}, fmt_{fmt} {}
+
+    [[nodiscard]] auto format() const noexcept -> format { return fmt_; }
 
     [[nodiscard]] auto get() noexcept -> raw::image& { return raw_; }
 
   private:
     raii::image raw_;
+    enum format fmt_;
 };
 
 class borrowed_image final {
@@ -33,12 +39,16 @@ class borrowed_image final {
 
 class image_view final {
   public:
-    image_view(raw::image_view& raw, raw::device& dev) noexcept : raw_{raw, dev} {}
+    image_view(raw::image_view& raw, raw::device& dev, const format fmt) noexcept
+        : raw_{raw, dev}, fmt_{fmt} {}
+
+    [[nodiscard]] auto format() const noexcept -> format { return fmt_; }
 
     [[nodiscard]] auto get() noexcept -> raw::image_view& { return raw_; }
 
   private:
     raii::image_view raw_;
+    enum format      fmt_;
 };
 
 class sampler final {

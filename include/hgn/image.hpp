@@ -12,17 +12,22 @@ namespace hgn {
 class image final {
   public:
     image(
-        raw::image& raw, raw::allocator& allocator, raw::allocation& alloc, const format fmt
+        raw::image&              raw,
+        raw::allocator&          allocator,
+        raw::allocation&         alloc,
+        const VkImageCreateInfo& info
     ) noexcept
-        : raw_{raw, allocator, alloc}, fmt_{fmt} {}
+        : raw_{raw, allocator, alloc}, info_{info} {}
 
-    [[nodiscard]] auto format() const noexcept -> format { return fmt_; }
+    [[nodiscard]] auto format() const noexcept -> format {
+        return static_cast<enum format>(info_.format);
+    }
 
     [[nodiscard]] auto get() noexcept -> raw::image& { return raw_; }
 
   private:
-    raii::image raw_;
-    enum format fmt_;
+    raii::image       raw_;
+    VkImageCreateInfo info_;
 };
 
 class borrowed_image final {
@@ -39,16 +44,18 @@ class borrowed_image final {
 
 class image_view final {
   public:
-    image_view(raw::image_view& raw, raw::device& dev, const format fmt) noexcept
-        : raw_{raw, dev}, fmt_{fmt} {}
+    image_view(raw::image_view& raw, raw::device& dev, const VkImageViewCreateInfo& info) noexcept
+        : raw_{raw, dev}, info_{info} {}
 
-    [[nodiscard]] auto format() const noexcept -> format { return fmt_; }
+    [[nodiscard]] auto format() const noexcept -> format {
+        return static_cast<enum format>(info_.format);
+    }
 
     [[nodiscard]] auto get() noexcept -> raw::image_view& { return raw_; }
 
   private:
-    raii::image_view raw_;
-    enum format      fmt_;
+    raii::image_view      raw_;
+    VkImageViewCreateInfo info_;
 };
 
 class sampler final {

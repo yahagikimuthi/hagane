@@ -72,7 +72,7 @@ class image_view_creator final {
         auto* raw = static_cast<raw::image_view*>(nullptr);
         return to_expected(vkCreateImageView(&dev_.get(), &info_, nullptr, &raw))
             .transform([&]() noexcept -> image_view {
-                return image_view{*raw, dev_.get(), static_cast<enum format>(info_.format)};
+                return image_view{*raw, dev_.get(), info_};
             });
     }
 

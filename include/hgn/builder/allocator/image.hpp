@@ -54,9 +54,7 @@ class image_creator final {
                    )
         )
             .transform([&]() noexcept -> image {
-                return image{
-                    *raw, allocator_.get(), *allocation, static_cast<enum format>(info_.format)
-                };
+                return image{*raw, allocator_.get(), *allocation, info_};
             });
     }
 

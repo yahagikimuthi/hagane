@@ -23,6 +23,10 @@ class image final {
         return static_cast<enum format>(info_.format);
     }
 
+    [[nodiscard]] auto usage() const noexcept -> image_usage_flag_bits {
+        return static_cast<image_usage_flag_bits>(info_.usage);
+    }
+
     [[nodiscard]] auto get() noexcept -> raw::image& { return raw_; }
 
   private:
@@ -49,6 +53,10 @@ class image_view final {
 
     [[nodiscard]] auto format() const noexcept -> format {
         return static_cast<enum format>(info_.format);
+    }
+
+    [[nodiscard]] auto aspect_mask() const noexcept -> image_aspect_flag_bits {
+        return static_cast<image_aspect_flag_bits>(info_.subresourceRange.aspectMask);
     }
 
     [[nodiscard]] auto get() noexcept -> raw::image_view& { return raw_; }

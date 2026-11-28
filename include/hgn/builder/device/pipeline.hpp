@@ -22,22 +22,22 @@ class vertex_attribute_pusher final {
         description_.binding = 0;
     }
 
-    [[nodiscard]] auto location(const std::uint32_t i) noexcept -> vertex_attribute_pusher& {
+    auto location(const std::uint32_t i) noexcept -> vertex_attribute_pusher& {
         description_.location = i;
         return *this;
     }
 
-    [[nodiscard]] auto format(const format fmt) noexcept -> vertex_attribute_pusher& {
+    auto format(const format fmt) noexcept -> vertex_attribute_pusher& {
         description_.format = static_cast<VkFormat>(fmt);
         return *this;
     }
 
-    [[nodiscard]] auto offset(const std::uint32_t n) noexcept -> vertex_attribute_pusher& {
+    auto offset(const std::uint32_t n) noexcept -> vertex_attribute_pusher& {
         description_.offset = n;
         return *this;
     }
 
-    [[nodiscard]] auto push() noexcept -> graphics_pipeline_creator& {
+    auto push() noexcept -> graphics_pipeline_creator& {
         auto& vec = vec_.get();
         vec.emplace_back(description_);
         return creator_;
